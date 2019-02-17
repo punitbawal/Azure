@@ -8,5 +8,5 @@ def hello_world():
     return 'Hello World. Again!'
 
 @app.route('/hi')
-def hello_world():
+def hi_world():
     return 'Hi World. Again!'
