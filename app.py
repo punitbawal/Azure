@@ -4,11 +4,16 @@ import urllib
 import time
 import random
 import redis
+import pygal
 
 app = Flask(__name__)
 params = urllib.parse.quote_plus("Driver={ODBC Driver 17 for SQL Server};Server=tcp:punitdb.database.windows.net,1433;Database=punitdb;Uid=punitbawal@punitdb;Pwd={BAW123pun};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
 engine = create_engine("mssql+pyodbc:///?odbc_connect=%s" % params)
 r = redis.StrictRedis(host='punitredis.redis.cache.windows.net', port=6380, db=0, password='kpZmbuD8UhnBWPhbwPhSeI2LsN4dvkCjBpgJ7Fm7K04=', ssl=True)
+
+line_chart = pygal.Bar()
+line_chart.add('a', [1, 2])
+line_chart.add('b', [1, 3])
 
 def redisconn():
 
@@ -30,9 +35,11 @@ def redisQuery(query):
         return rcount
 #redisconn()
 
+
 @app.route('/')
 def hello_world():
-    return render_template('index.html')
+    return render_template('index.html', chart=line_chart.render_data_uri())
+
 
 @app.route('/queryDB', methods=['POST'])
 def hi_world():
