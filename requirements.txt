@@ -4,6 +4,6 @@ itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
 Werkzeug==0.14.1
-sqlalchemy
-pandas
-pyodbc
+SQLAlchemy==1.2.18
+pandas==0.24.1
+pyodbc==4.0.25
