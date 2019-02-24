@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>
+            Query the Earthquake Data
+        </title>
+    </head>
+    <body>
+        <h1>
+            Punit Bhupendra Bawal
+        </h1>
+		<h1>
+			1001397222
+		</h1>
+        <div style="background-color:lightblue">
+            <h3>Magnitude based Operations</h3>
+            <p>
+                <form action="/queryDB" method="post">
+                    Enter the magnitude: <input type="text" name="mag">
+                    Enter type of operation: <select name="oper">
+                      <option value="<"><</option>
+                      <option value=">">></option>
+                      <option value="=">=</option>
+                    </select>
+                    <input type="submit" name= "form" value="Submit" />
+                </form>
+            </p>
+        </div>
+        <div style="background-color:lightblue">
+            <h3>Random Queries</h3>
+            <p>
+                <form action="/queryDB" method="post">
+                    Enter number of queries: <input type="text" name="qcount">
+                    <input type="submit" name= "form" value="Submit2" />
+                </form>
+            </p>
+        </div>
+    </body>
+</html>
