@@ -178,27 +178,37 @@ def hi_world():
     #Show County Count
     elif request.form['form'] == 'ShowCountyCount':
         stateCode = request.form['stateCode']
+        freq1 = int(request.form['freq1'])
         if stateCode != '':
-            query = "Select CAST(state_codes_code as varchar(max)), count(CAST(county_name as varchar(max))) from counties, state_codes where county_state LIKE state_codes_state and state_codes_code LIKE "+qot+stateCode+qot+" group by CAST(state_codes_code as varchar(max))"
-            query2 = "Select CAST(county_name as varchar(max)) from counties, state_codes where county_state LIKE state_codes_state and state_codes_code LIKE " + qot + stateCode + qot
-            cnt = engine.execute(query).fetchall()
-            res = engine.execute(query2).fetchall()
+            startTime = time.perf_counter()
+            while freq1 != 0:
+                query = "Select CAST(state_codes_code as varchar(max)), count(CAST(county_name as varchar(max))) from counties, state_codes where county_state LIKE state_codes_state and state_codes_code LIKE "+qot+stateCode+qot+" group by CAST(state_codes_code as varchar(max))"
+                query2 = "Select CAST(county_name as varchar(max)) from counties, state_codes where county_state LIKE state_codes_state and state_codes_code LIKE " + qot + stateCode + qot
+                cnt = engine.execute(query).fetchall()
+                res = engine.execute(query2).fetchall()
+                freq1 = freq1 - 1
+            endTime = time.perf_counter()
             if cnt is None:
                 return "No record exist"
             else:
-                return str(cnt)+str(res)
+                return str(endTime - startTime)+str(cnt)+str(res)
     # Show State
     elif request.form['form'] == 'ShowState':
         stateYear = request.form['stateYear']
         pop1 = request.form['statepop1']
         pop2 = request.form['statepop2']
+        freq2 = int(request.form['freq2'])
         if stateYear not in ['2010','2011','2012','2013','2014','2015','2016','2017','2018']:
             return "Invalid Year"
         if stateYear != '' and pop1 != '' and pop2 != '':
-            query = "select population_state from population where population_"+stateYear+" between "+pop1+" and "+pop2
-            cnt = engine.execute(query).fetchall()
+            startTime = time.perf_counter()
+            while freq2 != 0:
+                query = "select population_state from population where population_"+stateYear+" between "+pop1+" and "+pop2
+                cnt = engine.execute(query).fetchall()
+                freq2 = freq2 - 1
+            endTime = time.perf_counter()
             if cnt is None:
                 return "No record exist"
             else:
-                return str(cnt)
+                return str(endTime-startTime)+ str(cnt)
     return 'Time Taken:'+str(endTime-startTime)
