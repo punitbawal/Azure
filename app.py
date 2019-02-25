@@ -187,4 +187,18 @@ def hi_world():
                 return "No record exist"
             else:
                 return str(cnt)+str(res)
+    # Show State
+    elif request.form['form'] == 'ShowState':
+        stateYear = request.form['stateYear']
+        pop1 = request.form['statepop1']
+        pop2 = request.form['statepop2']
+        if stateYear not in ['2010','2011','2012','2013','2014','2015','2016','2017','2018']:
+            return "Invalid Year"
+        if stateYear != '' and pop1 != '' and pop2 != '':
+            query = "select population_state from population where population_"+stateYear+" between "+pop1+" and "+pop2
+            cnt = engine.execute(query).fetchall()
+            if cnt is None:
+                return "No record exist"
+            else:
+                return str(cnt)
     return 'Time Taken:'+str(endTime-startTime)

@@ -99,6 +99,17 @@
                 </form>
             </p>
         </div>
+        <div style="background-color:lightblue">
+            <h3>Show State Names</h3>
+            <p>
+                <form action="/queryDB" method="post">
+                    Enter Year: <input type="text" name="stateYear">
+                    POP1: <input type="text" name="statepop1">
+                    POP2: <input type="text" name="statepop2">
+                    <input type="submit" name= "form" value="ShowState" />
+                </form>
+            </p>
+        </div>
         <embed type="image/svg+xml" src= {{ chart|safe }} />
     </body>
 </html>
