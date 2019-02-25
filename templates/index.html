@@ -80,6 +80,25 @@
                 </form>
             </p>
         </div>
+        <div style="background-color:lightblue">
+            <h3>Show population</h3>
+            <p>
+                <form action="/queryDB" method="post">
+                    Enter 2 letter state: <input type="text" name="stateLetters">
+                    Enter Year: <input type="text" name="year">
+                    <input type="submit" name= "form" value="ShowPopulation" />
+                </form>
+            </p>
+        </div>
+        <div style="background-color:lightblue">
+            <h3>Show County Count</h3>
+            <p>
+                <form action="/queryDB" method="post">
+                    Enter 2 letter state: <input type="text" name="stateCode">
+                    <input type="submit" name= "form" value="ShowCountyCount" />
+                </form>
+            </p>
+        </div>
         <embed type="image/svg+xml" src= {{ chart|safe }} />
     </body>
 </html>

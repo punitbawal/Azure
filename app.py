@@ -162,4 +162,27 @@ def hi_world():
     elif request.form['form'] == 'FlushCache':
         r.flushall()
         return "Redis Cache Flushed"
+    #Show Population
+    elif request.form['form'] == 'ShowPopulation':
+        stateLetters = request.form['stateLetters']
+        year = request.form['year']
+        if year not in ['2010','2011','2012','2013','2014','2015','2016','2017','2018']:
+            return "Invalid Year"
+        if stateLetters != '' and year != '':
+            query = "Select population_"+year+" from population,state_codes where state_codes_code LIKE "+qot+stateLetters+qot+" and population_state LIKE state_codes_state"
+            cnt = engine.execute(query).fetchall()
+            if cnt is None:
+                return "No record exist"
+            else:
+                return str(cnt)
+    #Show County Count
+    elif request.form['form'] == 'ShowCountyCount':
+        stateCode = request.form['stateCode']
+        if stateCode != '':
+            query = "Select CAST(state_codes_code as varchar(max)), count(CAST(county_name as varchar(max))) from counties, state_codes where county_state LIKE state_codes_state and state_codes_code LIKE "+qot+stateCode+qot+" group by CAST(state_codes_code as varchar(max))"
+            cnt = engine.execute(query).fetchall()
+            if cnt is None:
+                return "No record exist"
+            else:
+                return str(cnt)
     return 'Time Taken:'+str(endTime-startTime)
