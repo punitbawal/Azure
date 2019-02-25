@@ -180,9 +180,11 @@ def hi_world():
         stateCode = request.form['stateCode']
         if stateCode != '':
             query = "Select CAST(state_codes_code as varchar(max)), count(CAST(county_name as varchar(max))) from counties, state_codes where county_state LIKE state_codes_state and state_codes_code LIKE "+qot+stateCode+qot+" group by CAST(state_codes_code as varchar(max))"
+            query2 = "Select CAST(county_name as varchar(max)) from counties, state_codes where county_state LIKE state_codes_state and state_codes_code LIKE " + qot + stateCode + qot
             cnt = engine.execute(query).fetchall()
+            res = engine.execute(query2).fetchall()
             if cnt is None:
                 return "No record exist"
             else:
-                return str(cnt)
+                return str(cnt)+str(res)
     return 'Time Taken:'+str(endTime-startTime)
