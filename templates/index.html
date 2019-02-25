@@ -22,13 +22,38 @@
                       <option value=">">></option>
                       <option value="=">=</option>
                     </select>
+                    Enter frequency: <input type="text" name="magfreq">
                     <input type="submit" name= "form" value="Submit" />
                     <input type="submit" name= "form" value="SubmitCache" />
                 </form>
             </p>
         </div>
         <div style="background-color:lightblue">
-            <h3>Random Queries</h3>
+            <h3>Location based Operations</h3>
+            <p>
+                <form action="/queryDB" method="post">
+                    Enter the place: <input type="text" name="place">
+                    Enter frequency: <input type="text" name="locfreq">
+                    <input type="submit" name= "form" value="SubmitLoc" />
+                    <input type="submit" name= "form" value="SubmitLocCache" />
+                </form>
+            </p>
+        </div>
+        <div style="background-color:lightblue">
+            <h3>LatLong & Radius based Operations</h3>
+            <p>
+                <form action="/queryDB" method="post">
+                    Enter Latitude: <input type="text" name="lat">
+                    Enter Longitude: <input type="text" name="long">
+                    Enter Radius: <input type="text" name="rad">
+                    Enter frequency: <input type="text" name="latlongfreq">
+                    <input type="submit" name= "form" value="SubmitRad" />
+                    <input type="submit" name= "form" value="SubmitRadCache" />
+                </form>
+            </p>
+        </div>
+        <div style="background-color:lightblue">
+            <h3>Between Magnitude Query</h3>
             <p>
                 <form action="/queryDB" method="post">
                     Enter number of queries: <input type="text" name="qcount">
@@ -36,6 +61,22 @@
                     End Magnitude: <input type="text" name="emag">
                     <input type="submit" name= "form" value="Submit2" />
                     <input type="submit" name= "form" value="SubmitCache2" />
+                </form>
+            </p>
+        </div>
+        <div style="background-color:lightblue">
+            <h3>Load Table</h3>
+            <p>
+                <form action="/queryDB" method="post">
+                    <input type="submit" name= "form" value="LoadTable" />
+                </form>
+            </p>
+        </div>
+        <div style="background-color:lightblue">
+            <h3>Flush Cache</h3>
+            <p>
+                <form action="/queryDB" method="post">
+                    <input type="submit" name= "form" value="FlushCache" />
                 </form>
             </p>
         </div>
