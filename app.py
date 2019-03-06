@@ -114,32 +114,41 @@ def bar():
         return render_template('visual.html', a=rows, chartType='Bar', labelx = 'Year', labely = 'BLPercent')
 
     #Question 7,8 Quiz 4
-    elif request.form['form'] == 'ShowGraph7':
+    elif request.form['form'] == 'ShowGraph10':
         q1year = request.form['q1year']
         q1r11 = str(int(request.form['q1r11'])*1000000)
-        q1r12 = str(int(request.form['q1r12'])*1000000)
-        q1r21 = str(int(request.form['q1r21'])*1000000)
-        q1r22 = str(int(request.form['q1r22'])*1000000)
-        q1r31 = str(int(request.form['q1r31'])*1000000)
-        q1r32 = str(int(request.form['q1r32'])*1000000)
+        #q1r12 = str(int(request.form['q1r12'])*1000000)
+        # q1r21 = str(int(request.form['q1r21'])*1000000)
+        # q1r22 = str(int(request.form['q1r22'])*1000000)
+        # q1r31 = str(int(request.form['q1r31'])*1000000)
+        # q1r32 = str(int(request.form['q1r32'])*1000000)
+        i = 0
+        j = i + int(request.form['q1r11'])
+        final_result = []
+        while i < 100:
+            rows = engine.execute("select count(state) from population4 where year_" + q1year + " between " + str(i*1000000) + " and " + str(j*1000000) + ";").fetchall()
+            mydict = {'group': 'group' + str(i), 'count': rows[0][0]}
+            i = j
+            j = i + int(request.form['q1r11'])
+            final_result.append(mydict)
         result = []
-        rows = engine.execute("select 'group1',count(state) from population4 where year_"+q1year+" between "+q1r11+" and "+q1r12+";").fetchall()
-        print(rows)
-        result.append(rows[0])
-        rows = engine.execute("select 'group2',count(state) from population4 where year_"+q1year+" between " + q1r21 + " and " + q1r22 + ";").fetchall()
-        #result = result + str(rows)
-        result.append(rows[0])
-        rows = engine.execute("select 'group3',count(state) from population4 where year_"+q1year+" between " + q1r31 + " and " + q1r32 + ";").fetchall()
-        #result = result + str(rows)
-        result.append(rows[0])
+        #rows = engine.execute("select 'group1',count(state) from population4 where year_"+q1year+" between "+q1r11+" and "+q1r12+";").fetchall()
+        # print(rows)
+        # result.append(rows[0])
+        # rows = engine.execute("select 'group2',count(state) from population4 where year_"+q1year+" between " + q1r21 + " and " + q1r22 + ";").fetchall()
+        # #result = result + str(rows)
+        # result.append(rows[0])
+        # rows = engine.execute("select 'group3',count(state) from population4 where year_"+q1year+" between " + q1r31 + " and " + q1r32 + ";").fetchall()
+        # #result = result + str(rows)
+        # result.append(rows[0])
 
         #rows = [dict(row) for row in result]
-        i = 0
-        final_result = []
-        while i < len(result):
-            mydict = {'group':result[i][0],'count':result[i][1]}
-            final_result.append(mydict)
-            i = i + 1
+        # i = 0
+        # final_result = []
+        # while i < len(result):
+        #     mydict = {'group':result[i][0],'count':result[i][1]}
+        #     final_result.append(mydict)
+        #     i = i + 1
         return render_template('visual.html', a=final_result, chartType='Pie', labelp='count', labelcat='group')
 
     elif request.form['form'] == 'ShowGraph9':
