@@ -39,19 +39,19 @@
 
         if ("{{ chartType }}" == "Scatter"){
             var myChart = new dimple.chart(svg, data);
-              myChart.setBounds(60, 30, 900, 500)
+              myChart.setBounds(60, 30, 500, 500)
                 var x = myChart.addMeasureAxis("x", "{{ labelx }}");
                 var y = myChart.addMeasureAxis("y", "{{ labely }}");
-                myChart.addSeries(["id","mag", "locationsource"], dimple.plot.bubble);
+                myChart.addSeries(["Year","BLPercent"], dimple.plot.bubble);
                 myChart.addLegend(200, 10, 360, 20, "right");
-                x.overrideMax = 180.00000000;
-                x.overrideMin = -180.00000000;
-                y.overrideMax = 90.00000000;
-                y.overrideMin = -90.00000000;
-                x.ticks = 20;
-                y.ticks = 20;
-                x.tickFormat = ',.4f';
-                y.tickFormat = ',.4f';
+                x.overrideMax = 1960;
+                x.overrideMin = 2020;
+                y.overrideMax = 50;
+                y.overrideMin = 0;
+                x.ticks = 5;
+                y.ticks = 5;
+                x.tickFormat = '.0f';
+                y.tickFormat = ',.2f';
                 myChart.draw();
         }
      </script>

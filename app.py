@@ -113,7 +113,7 @@ def bar():
         #return render_template('visual.html', a=rows, chartType='Pie', labelp='cnt', labelcat='locationsource')
         return render_template('visual.html', a=rows, chartType='Bar', labelx = 'Year', labely = 'BLPercent')
 
-    #Question 1 Quiz 4
+    #Question 7,8 Quiz 4
     elif request.form['form'] == 'ShowGraph7':
         q1year = request.form['q1year']
         q1r11 = str(int(request.form['q1r11'])*1000000)
@@ -141,6 +141,17 @@ def bar():
             final_result.append(mydict)
             i = i + 1
         return render_template('visual.html', a=final_result, chartType='Pie', labelp='count', labelcat='group')
+
+    elif request.form['form'] == 'ShowGraph9':
+        q3code = request.form['q3code']
+        q3r11 = request.form['q3r11']
+        q3r12 = request.form['q3r12']
+        #rows = engine.execute("select CAST(locationsource as varchar(max)) as locationsource,count(*) as cnt from earthquake2 where mag between " + mag1 + " and " + mag2 + " group by CAST(locationsource as varchar(max));").fetchall()
+        rows = engine.execute("select Year,BLPercent from educationshare where Code="+qot+q3code+qot+" and Year between "+q3r11+" and "+q3r12+";").fetchall()
+        rows = [dict(row) for row in rows]
+        return render_template('visual.html', a=rows, chartType='Scatter', labelx='Year', labely='BLPercent')
+        # return render_template('visual.html', a=rows, chartType='Pie')
+        # return render_template('visual.html', a=rows, chartType='Bar')
 
 @app.route('/queryDB', methods=['POST'])
 def hi_world():
