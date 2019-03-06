@@ -6,6 +6,7 @@ import random
 import redis
 import pygal
 import pandas as pd
+import json
 
 app = Flask(__name__)
 params = urllib.parse.quote_plus("Driver={ODBC Driver 17 for SQL Server};Server=tcp:punitdb.database.windows.net,1433;Database=punitdb;Uid=punitbawal@punitdb;Pwd={BAW123pun};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;")
@@ -40,6 +41,17 @@ def redisQuery(query):
 @app.route('/')
 def hello_world():
     return render_template('index.html', chart=line_chart.render_data_uri())
+
+
+@app.route('/barchart')
+def bar():
+    rows = engine.execute("select CAST(locationsource as varchar(max)) as locationsource,count(*) as cnt from earthquake2 group by CAST(locationsource as varchar(max));").fetchall()
+    #rows = engine.execute("select top(1000) id, latitude, longitude, mag, CAST(locationsource as varchar(max)) as locationsource from earthquake2;").fetchall()
+    rows = [dict(row) for row in rows]
+    #return render_template('visual.html', a=rows, chartType='Scatter')
+    #return render_template('visual.html', a=rows, chartType='Pie')
+    return render_template('visual.html', a=rows, chartType='Bar')
+
 
 
 @app.route('/queryDB', methods=['POST'])
