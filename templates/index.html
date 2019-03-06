@@ -1,6 +1,6 @@
 <html>
     <head>
-        <script type="text/javascript" src="http://kozea.github.com/pygal.js/latest/pygal-tooltips.min.js"></script>
+{#        <script type="text/javascript" src="http://kozea.github.com/pygal.js/latest/pygal-tooltips.min.js"></script>#}
         <title>
             Query the Earthquake Data
         </title>
@@ -114,6 +114,54 @@
                 </form>
             </p>
         </div>
-        <embed type="image/svg+xml" src= {{ chart|safe }} />
+        <div style="background-color:lightcyan">
+            <h3>Count of earthquake between magnitude range location-wise</h3>
+            <p>
+                <form action="/barchart" method="post">
+                    Mag1: <input type="text" name="vmag1">
+                    Mag2: <input type="text" name="vmag2">
+                    <input type="submit" name= "form" value="ShowGraph" />
+                </form>
+            </p>
+        </div>
+        <div style="background-color:lightcyan">
+            <h3>Scatter of earthquake between magnitude range location-wise</h3>
+            <p>
+                <form action="/barchart" method="post">
+                    Mag1: <input type="text" name="vmag1">
+                    Mag2: <input type="text" name="vmag2">
+                    <input type="submit" name= "form" value="ShowGraph2" />
+                </form>
+            </p>
+        </div>
+        <div style="background-color:lightcyan">
+            <h3>PieChart of earthquake between magnitude range location-wise</h3>
+            <p>
+                <form action="/barchart" method="post">
+                    Mag1: <input type="text" name="vmag1">
+                    Mag2: <input type="text" name="vmag2">
+                    <input type="submit" name= "form" value="ShowGraph3" />
+                </form>
+            </p>
+        </div>
+        <div style="background-color:lightcyan">
+            <h3>Show population distribution</h3>
+            <p>
+                <form action="/barchart" method="post">
+                    Year: <input type="text" name="vyear">
+                    <input type="submit" name= "form" value="ShowGraph4" />
+                </form>
+            </p>
+        </div>
+        <div style="background-color:lightcyan">
+            <h3>Show population increase for state</h3>
+            <p>
+                <form action="/barchart" method="post">
+                    State: <input type="text" name="vstate">
+                    <input type="submit" name= "form" value="ShowGraph5" />
+                </form>
+            </p>
+        </div>
+{#        <embed type="image/svg+xml" src= {{ chart|safe }} />#}
     </body>
 </html>

@@ -43,16 +43,65 @@ def hello_world():
     return render_template('index.html', chart=line_chart.render_data_uri())
 
 
-@app.route('/barchart')
+@app.route('/barchart', methods=['POST'])
 def bar():
-    rows = engine.execute("select CAST(locationsource as varchar(max)) as locationsource,count(*) as cnt from earthquake2 group by CAST(locationsource as varchar(max));").fetchall()
-    #rows = engine.execute("select top(1000) id, latitude, longitude, mag, CAST(locationsource as varchar(max)) as locationsource from earthquake2;").fetchall()
-    rows = [dict(row) for row in rows]
-    #return render_template('visual.html', a=rows, chartType='Scatter')
-    #return render_template('visual.html', a=rows, chartType='Pie')
-    return render_template('visual.html', a=rows, chartType='Bar')
+    qot = '\''
+    if request.form['form'] == 'ShowGraph':
+        mag1 = request.form['vmag1']
+        mag2 = request.form['vmag2']
+        rows = engine.execute("select CAST(locationsource as varchar(max)) as locationsource,count(*) as cnt from earthquake2 where mag between "+mag1+" and "+mag2+" group by CAST(locationsource as varchar(max));").fetchall()
+        #rows = engine.execute("select top(1000) id, latitude, longitude, mag, CAST(locationsource as varchar(max)) as locationsource from earthquake2;").fetchall()
+        rows = [dict(row) for row in rows]
+        #return render_template('visual.html', a=rows, chartType='Scatter')
+        #return render_template('visual.html', a=rows, chartType='Pie')
+        return render_template('visual.html', a=rows, chartType='Bar', labelx='locationsource', labely='cnt')
 
+    elif request.form['form'] == 'ShowGraph2':
+        mag1 = request.form['vmag1']
+        mag2 = request.form['vmag2']
+        #rows = engine.execute("select CAST(locationsource as varchar(max)) as locationsource,count(*) as cnt from earthquake2 where mag between " + mag1 + " and " + mag2 + " group by CAST(locationsource as varchar(max));").fetchall()
+        rows = engine.execute("select id, latitude, longitude, mag, CAST(locationsource as varchar(max)) as locationsource from earthquake2 where mag between " + mag1 + " and " + mag2 + ";").fetchall()
+        rows = [dict(row) for row in rows]
+        return render_template('visual.html', a=rows, chartType='Scatter', labelx='longitude', labely='latitude')
+        # return render_template('visual.html', a=rows, chartType='Pie')
+        # return render_template('visual.html', a=rows, chartType='Bar')
 
+    elif request.form['form'] == 'ShowGraph3':
+        mag1 = request.form['vmag1']
+        mag2 = request.form['vmag2']
+        rows = engine.execute("select CAST(locationsource as varchar(max)) as locationsource,count(*) as cnt from earthquake2 where mag between " + mag1 + " and " + mag2 + " group by CAST(locationsource as varchar(max));").fetchall()
+        #rows = engine.execute("select id, latitude, longitude, mag, CAST(locationsource as varchar(max)) as locationsource from earthquake2 where mag between " + mag1 + " and " + mag2 + ";").fetchall()
+        rows = [dict(row) for row in rows]
+        #return render_template('visual.html', a=rows, chartType='Scatter')
+        return render_template('visual.html', a=rows, chartType='Pie', labelp='cnt', labelcat='locationsource')
+        # return render_template('visual.html', a=rows, chartType='Bar')
+
+    #Show population Distribution
+    elif request.form['form'] == 'ShowGraph4':
+        year = request.form['vyear']
+        rows = engine.execute("select state,year_"+year+" from population4").fetchall()
+        #rows = engine.execute("select id, latitude, longitude, mag, CAST(locationsource as varchar(max)) as locationsource from earthquake2 where mag between " + mag1 + " and " + mag2 + ";").fetchall()
+        rows = [dict(row) for row in rows]
+        #return render_template('visual.html', a=rows, chartType='Scatter')
+        return render_template('visual.html', a=rows, chartType='Pie', labelp='year_'+year, labelcat='state')
+        # return render_template('visual.html', a=rows, chartType='Bar')
+    #Population increase per year for a state
+    if request.form['form'] == 'ShowGraph5':
+        state = request.form['vstate']
+        rows = engine.execute("select year_2010,year_2011,year_2012,year_2013,year_2014,year_2015,year_2016,year_2017,year_2018 from population4 where state="+qot+state+qot+";").fetchall()
+        print(rows)
+        #rows = engine.execute("select top(1000) id, latitude, longitude, mag, CAST(locationsource as varchar(max)) as locationsource from earthquake2;").fetchall()
+        #rows = [dict(row) for row in rows]
+        #print(rows)
+        count = 0
+        years = ['year_2010','year_2011','year_2012','year_2013','year_2014','year_2015','year_2016','year_2017','year_2018']
+        rows1 = []
+        while count < len(years):
+            rows1.append({'year':years[count],'popul':rows[0][count]})
+            count = count + 1
+        #return render_template('visual.html', a=rows, chartType='Scatter')
+        #return render_template('visual.html', a=rows, chartType='Pie')
+        return render_template('visual.html', a=rows1, chartType='Bar', labelx='year', labely='popul')
 
 @app.route('/queryDB', methods=['POST'])
 def hi_world():
@@ -164,9 +213,10 @@ def hi_world():
         #engine.execute("create table earthquake2(time Datetime,latitude float,longitude float,depth float,mag float,magType text,nst int,gap float,dmin float,rms float,net text,id text,updated datetime,place text,type text,horizontalError float,depthError float,magError float,magNst int,status text,locationSource text,magSource text)")
         #engine.execute("create table counties(county_name text, county_state text)")
         #engine.execute("create table population(population_state text, population_2010 int, population_2011 int, population_2012 int, population_2013 int, population_2014 int, population_2015 int, population_2016 int, population_2017 int, population_2018 int)")
-        engine.execute("create table state_codes(state_codes_code text,state_codes_state text)")
-        df = pd.read_csv("statecode.csv", sep=',', quotechar='"', encoding='utf8')
-        df.to_sql('state_codes', con=engine, index=False, if_exists='append')
+        #engine.execute("create table state_codes(state_codes_code text,state_codes_state text)")
+        engine.execute("create table educationshare(Entity varchar(max),Code  varchar(max),Year  int,BLPercent  float)")
+        df = pd.read_csv("educationshare.csv", sep=',', quotechar='"', encoding='utf8')
+        df.to_sql('educationshare', con=engine, index=False, if_exists='append')
         endTime = time.perf_counter()
         # print(cnt[0][0])
         print("Time Taken: ", endTime - startTime)

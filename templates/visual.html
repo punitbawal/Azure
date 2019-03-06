@@ -15,19 +15,23 @@
         console.log(data)
         if("{{ chartType }}" == "Bar"){
         var myChart = new dimple.chart(svg, data);
-          myChart.setBounds(80, 30, 480, 330)
-          var y = myChart.addMeasureAxis("y", "cnt");
-          var x = myChart.addCategoryAxis("x", "locationsource");
+          {#myChart.setBounds(80, 30, 480, 330)#}
+            myChart.setBounds(60, 30, 900, 500)
+          var y = myChart.addMeasureAxis("y", "{{ labely }}");
+          var x = myChart.addCategoryAxis("x", "{{ labelx }}");
           myChart.addSeries("Earthquake Count", dimple.plot.bar);
           myChart.addLegend(200, 10, 380, 20, "right");
           y.tickFormat = ',.0f';
+          {#y.ticks = 100000;#}
+            y.overrideMax = 5000000;
+            y.overrideMin = 4000000;
           myChart.draw();}
 
         if ("{{ chartType }}" == "Pie"){
             var myChart = new dimple.chart(svg, data);
               myChart.setBounds(20, 20, 460, 360)
-              var p = myChart.addMeasureAxis("p", "cnt");
-              myChart.addSeries("locationsource", dimple.plot.pie);
+              var p = myChart.addMeasureAxis("p", "{{ labelp }}");
+              myChart.addSeries("{{ labelcat }}", dimple.plot.pie);
               myChart.addLegend(500, 20, 90, 300, "left");
               p.tickFormat = ',.0f';
               myChart.draw();
@@ -36,8 +40,8 @@
         if ("{{ chartType }}" == "Scatter"){
             var myChart = new dimple.chart(svg, data);
               myChart.setBounds(60, 30, 900, 500)
-                var x = myChart.addMeasureAxis("x", "longitude");
-                var y = myChart.addMeasureAxis("y", "latitude");
+                var x = myChart.addMeasureAxis("x", "{{ labelx }}");
+                var y = myChart.addMeasureAxis("y", "{{ labely }}");
                 myChart.addSeries(["id","mag", "locationsource"], dimple.plot.bubble);
                 myChart.addLegend(200, 10, 360, 20, "right");
                 x.overrideMax = 180.00000000;
@@ -45,9 +49,9 @@
                 y.overrideMax = 90.00000000;
                 y.overrideMin = -90.00000000;
                 x.ticks = 20;
-                x.ticks = 20;
-                x.tickFormat = ',.7f';
-                y.tickFormat = ',.7f';
+                y.ticks = 20;
+                x.tickFormat = ',.4f';
+                y.tickFormat = ',.4f';
                 myChart.draw();
         }
      </script>
