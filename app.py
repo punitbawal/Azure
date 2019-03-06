@@ -113,6 +113,26 @@ def bar():
         #return render_template('visual.html', a=rows, chartType='Pie', labelp='cnt', labelcat='locationsource')
         return render_template('visual.html', a=rows, chartType='Bar', labelx = 'Year', labely = 'BLPercent')
 
+    #Question 1 Quiz 4
+    elif request.form['form'] == 'ShowGraph7':
+        q1year = request.form['q1year']
+        q1r11 = request.form['q1r11']
+        q1r12 = request.form['q1r12']
+        q1r21 = request.form['q1r21']
+        q1r22 = request.form['q1r22']
+        q1r31 = request.form['q1r31']
+        q1r32 = request.form['q1r32']
+        result = ''
+        rows = engine.execute("select 'group1',count(state) from population4 where year_"+q1year+" between "+q1r11+" and "+q1r12+";").fetchall()
+        print(rows)
+        result = result+str(rows)
+        rows = engine.execute("select 'group2',count(state) from population4 where year_"+q1year+" between " + q1r21 + " and " + q1r22 + ";").fetchall()
+        result = result + str(rows)
+        rows = engine.execute("select 'group3',count(state) from population4 where year_"+q1year+" between " + q1r31 + " and " + q1r32 + ";").fetchall()
+        result = result + str(rows)
+
+        return result
+
 @app.route('/queryDB', methods=['POST'])
 def hi_world():
     qot = '\''

@@ -171,6 +171,18 @@
                 </form>
             </p>
         </div>
+        <div style="background-color:lightcyan">
+            <h3>Groupwise count</h3>
+            <p>
+                <form action="/barchart" method="post">
+                    Year: <input type="text" name="q1year">
+                    Range1: <input type="text" name="q1r11"> <input type="text" name="q1r12">
+                    Range2: <input type="text" name="q1r21"> <input type="text" name="q1r22">
+                    Range2: <input type="text" name="q1r31"> <input type="text" name="q1r32">
+                    <input type="submit" name= "form" value="ShowGraph7" />
+                </form>
+            </p>
+        </div>
 {#        <embed type="image/svg+xml" src= {{ chart|safe }} />#}
     </body>
 </html>
