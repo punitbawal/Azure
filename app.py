@@ -122,16 +122,25 @@ def bar():
         q1r22 = str(int(request.form['q1r22'])*1000000)
         q1r31 = str(int(request.form['q1r31'])*1000000)
         q1r32 = str(int(request.form['q1r32'])*1000000)
-        result = ''
+        result = []
         rows = engine.execute("select 'group1',count(state) from population4 where year_"+q1year+" between "+q1r11+" and "+q1r12+";").fetchall()
         print(rows)
-        result = result+str(rows)
+        result.append(rows[0])
         rows = engine.execute("select 'group2',count(state) from population4 where year_"+q1year+" between " + q1r21 + " and " + q1r22 + ";").fetchall()
-        result = result + str(rows)
+        #result = result + str(rows)
+        result.append(rows[0])
         rows = engine.execute("select 'group3',count(state) from population4 where year_"+q1year+" between " + q1r31 + " and " + q1r32 + ";").fetchall()
-        result = result + str(rows)
+        #result = result + str(rows)
+        result.append(rows[0])
 
-        return result
+        #rows = [dict(row) for row in result]
+        i = 0
+        final_result = []
+        while i < len(result):
+            mydict = {'group':result[i][0],'count':result[i][1]}
+            final_result.append(mydict)
+            i = i + 1
+        return render_template('visual.html', a=final_result, chartType='Pie', labelp='count', labelcat='group')
 
 @app.route('/queryDB', methods=['POST'])
 def hi_world():
