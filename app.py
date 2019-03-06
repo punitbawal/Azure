@@ -103,6 +103,16 @@ def bar():
         #return render_template('visual.html', a=rows, chartType='Pie')
         return render_template('visual.html', a=rows1, chartType='Bar', labelx='year', labely='popul')
 
+    #Show BLPercentage for a country
+    elif request.form['form'] == 'ShowGraph6':
+        country_code = request.form['vcountrycode']
+        rows = engine.execute("select Year,BLPercent from educationshare where Code="+qot+country_code+qot+";").fetchall()
+        #rows = engine.execute("select id, latitude, longitude, mag, CAST(locationsource as varchar(max)) as locationsource from earthquake2 where mag between " + mag1 + " and " + mag2 + ";").fetchall()
+        rows = [dict(row) for row in rows]
+        #return render_template('visual.html', a=rows, chartType='Scatter')
+        #return render_template('visual.html', a=rows, chartType='Pie', labelp='cnt', labelcat='locationsource')
+        return render_template('visual.html', a=rows, chartType='Bar', labelx = 'Year', labely = 'BLPercent')
+
 @app.route('/queryDB', methods=['POST'])
 def hi_world():
     qot = '\''

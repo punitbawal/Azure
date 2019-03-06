@@ -162,6 +162,15 @@
                 </form>
             </p>
         </div>
+        <div style="background-color:lightcyan">
+            <h3>Show BLPercentage for a Country</h3>
+            <p>
+                <form action="/barchart" method="post">
+                    CountryCode: <input type="text" name="vcountrycode">
+                    <input type="submit" name= "form" value="ShowGraph6" />
+                </form>
+            </p>
+        </div>
 {#        <embed type="image/svg+xml" src= {{ chart|safe }} />#}
     </body>
 </html>

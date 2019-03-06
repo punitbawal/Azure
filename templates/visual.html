@@ -21,10 +21,10 @@
           var x = myChart.addCategoryAxis("x", "{{ labelx }}");
           myChart.addSeries("Earthquake Count", dimple.plot.bar);
           myChart.addLegend(200, 10, 380, 20, "right");
-          y.tickFormat = ',.0f';
-          {#y.ticks = 100000;#}
-            y.overrideMax = 5000000;
-            y.overrideMin = 4000000;
+          y.tickFormat = ',.2f';
+          y.ticks = 5;
+            y.overrideMax = 20;
+            y.overrideMin = 0;
           myChart.draw();}
 
         if ("{{ chartType }}" == "Pie"){
